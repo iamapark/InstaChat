@@ -1,5 +1,7 @@
 package com.appsrox.instachat;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -159,6 +161,7 @@ public class DataProvider extends ContentProvider {
 	}
 	
 	private String getTableName(Uri uri) {
+		
 	    switch(uriMatcher.match(uri)) {
 	    case MESSAGES_ALLROWS:
 	    case MESSAGES_SINGLE_ROW:

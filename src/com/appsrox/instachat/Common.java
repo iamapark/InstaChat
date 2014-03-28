@@ -10,7 +10,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Patterns;
 
-public class Common extends Application {   
+public class Common extends Application implements Constatns {   
 	 
     public static String[] email_arr;
     private static SharedPreferences prefs;
@@ -34,5 +34,30 @@ public class Common extends Application {
         }
         return lst;
     }   
+    
+    public static String getPreferredEmail() {
+        return prefs.getString("chat_email_id", email_arr.length==0 ? "" : email_arr[0]);
+    }
+     
+    public static String getDisplayName() {
+        String email = getPreferredEmail();
+        return prefs.getString("display_name", email.substring(0, email.indexOf('@')));
+    }
+     
+    public static boolean isNotify() {
+        return prefs.getBoolean("notifications_new_message", true);
+    }
+     
+    public static String getRingtone() {
+        return prefs.getString("notifications_new_message_ringtone", android.provider.Settings.System.DEFAULT_NOTIFICATION_URI.toString());
+    }
+     
+    public static String getServerUrl() {
+        return prefs.getString("server_url_pref", SERVER_URL);
+    }
+     
+    public static String getSenderId() {
+        return prefs.getString("sender_id_pref", SENDER_ID);
+    }  
 }
      

@@ -1,5 +1,6 @@
 package com.appsrox.instachat;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.ListActivity;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+@SuppressLint("NewApi")
 public class MainActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	
 	 private SimpleCursorAdapter adapter;
@@ -25,8 +27,6 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
 		adapter = new SimpleCursorAdapter(this, R.layout.main_list_item, null, new String[]{DataProvider.COL_NAME, DataProvider.COL_COUNT},  new int[]{R.id.text1, R.id.text2}, 0);
 		adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 			

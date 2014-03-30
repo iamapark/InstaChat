@@ -2,6 +2,7 @@ package com.appsrox.instachat;
 
 import java.io.IOException;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -14,6 +15,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +30,8 @@ public class ChatActivity extends Activity implements MessagesFragment.OnFragmen
     
     private BroadcastReceiver registrationStatusReceiver = new  BroadcastReceiver() {
 
-        @Override
+        @SuppressLint("NewApi")
+		@Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && Common.ACTION_REGISTER.equals(intent.getAction())) {
                 switch (intent.getIntExtra(Common.EXTRA_STATUS, 100)) {
@@ -44,11 +47,12 @@ public class ChatActivity extends Activity implements MessagesFragment.OnFragmen
         }
     };
  
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-         
+
         profileId = getIntent().getStringExtra(Common.PROFILE_ID);
         msgEdit = (EditText) findViewById(R.id.msg_edit);
         sendBtn = (Button) findViewById(R.id.send_btn);
@@ -70,6 +74,7 @@ public class ChatActivity extends Activity implements MessagesFragment.OnFragmen
             profileName = c.getString(c.getColumnIndex(DataProvider.COL_NAME));
             profileEmail = c.getString(c.getColumnIndex(DataProvider.COL_EMAIL));
             actionBar.setTitle(profileName);
+            Log.d("profileName", profileName);
         }
         actionBar.setSubtitle("connecting ...");
         

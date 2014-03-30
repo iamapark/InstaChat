@@ -15,16 +15,18 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="19" />
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
 
     <application
+        android:name="com.appsrox.instachat.Common"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <activity
-            android:name="com.appsrox.instachat.MainActivity"
+            android:name="com.appsrox.instachat.DemoActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,7 +34,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <receiver
+            android:name="com.appsrox.instachat.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.google.android.gcm.demo.app" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.appsrox.instachat.GcmIntentService" />
+        <!-- <activity android:name="com.appsrox.instachat.ChatActivity"/>
+        <activity
+            android:name="com.appsrox.instachat.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
+        
         <receiver
             android:name="com.appsrox.instachat.client.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
@@ -42,11 +59,12 @@
                 <category android:name="com.appsrox.instachat" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name="com.appsrox.instachat.SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
+        
+         <provider
+            android:name="com.appsrox.instachat.DataProvider"
+            android:authorities="com.appsrox.instachat.provider"
+            android:exported="false" >
+        </provider> -->
     </application>
 
 </manifest>

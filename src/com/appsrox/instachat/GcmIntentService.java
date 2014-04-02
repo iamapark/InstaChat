@@ -1,32 +1,48 @@
 package com.appsrox.instachat;
 
-import android.app.IntentService;
+import MessageHelper.AbstractService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-public class GcmIntentService extends IntentService  {
+public class GcmIntentService extends AbstractService  {
 
 	
+	public GcmIntentService(String name) {
+		super(name);
+		Log.d(TAG, "GcmIntentService constructor");
+	}
+
 	public static final int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 
-    public GcmIntentService() {
-        super("GcmIntentService");
-    }
-    public static final String TAG = "GCM Demo";
-
+    public static final String TAG = "KAKA";
+    
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public int onStartCommand(Intent intent,int flags, int startId){
+    	Log.d(TAG, "onStartCommand");
+    	Notify(intent);
+    	return super.onStartCommand(intent,flags,startId);
+    }
+    
+    @Override
+	public IBinder onBind(Intent intent) {
+    	Log.d(TAG, "onBind");
+		return null;
+	}
+
+    protected void Notify(Intent intent) {
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
         // The getMessageType() intent parameter must be the intent you received
@@ -46,22 +62,18 @@ public class GcmIntentService extends IntentService  {
             // If it's a regular GCM message, do some work.
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // This loop represents the service doing some work.
-                for (int i = 0; i < 5; i++) {
-                    Log.i(TAG, "Working... " + (i + 1)
-                            + "/5 @ " + SystemClock.elapsedRealtime());
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                    }
-                }
                 Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
                 sendNotification("Received: " + extras.toString());
                 Log.i(TAG, "Received: " + extras.toString());
+                
+                
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
         GcmBroadcastReceiver.completeWakefulIntent(intent);
+        
+        
     }
 
     // Put the message into a notification and post it.
@@ -82,9 +94,31 @@ public class GcmIntentService extends IntentService  {
         .bigText(msg))
         .setContentText(msg);
         
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
+
+	@Override
+	public void onStartService() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStopService() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onReceiveMessage(Message msg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onHandleIntent(Intent intent) {
+		Notify(intent);
+		
+	}
 }

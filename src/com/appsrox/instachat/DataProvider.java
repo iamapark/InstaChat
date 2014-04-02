@@ -73,34 +73,40 @@ public class DataProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+	    SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+	     
+	    switch(uriMatcher.match(uri)) {
+		    case MESSAGES_ALLROWS:
+		    case PROFILE_ALLROWS:
+		        qb.setTables(getTableName(uri));
+		        break;
+		         
+		    case MESSAGES_SINGLE_ROW:
+		    case PROFILE_SINGLE_ROW:
+		        qb.setTables(getTableName(uri));
+		        qb.appendWhere("_id = " + uri.getLastPathSegment());
+		        break;
+		         
+		    default:
+		        throw new IllegalArgumentException("Unsupported URI: " + uri);          
+	    }
+	     
+	    Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+	    c.setNotificationUri(getContext().getContentResolver(), uri);
+	    return c;
+	}
 
+	private String getTableName(Uri uri) {
 		switch(uriMatcher.match(uri)) {
-		case MESSAGES_ALLROWS:
-			qb.setTables(TABLE_MESSAGES);
-			break;			
-
-		case MESSAGES_SINGLE_ROW:
-			qb.setTables(TABLE_MESSAGES);
-			qb.appendWhere("_id = " + uri.getLastPathSegment());
-			break;
-
-		case PROFILE_ALLROWS:
-			qb.setTables(TABLE_PROFILE);
-			break;			
-
-		case PROFILE_SINGLE_ROW:
-			qb.setTables(TABLE_PROFILE);
-			qb.appendWhere("_id = " + uri.getLastPathSegment());
-			break;
-
-		default:
-			throw new IllegalArgumentException("Unsupported URI: " + uri);			
-		}
-
-		Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-		c.setNotificationUri(getContext().getContentResolver(), uri);
-		return c;
+	    case MESSAGES_ALLROWS:
+	    case MESSAGES_SINGLE_ROW:
+	        return TABLE_MESSAGES;
+	         
+	    case PROFILE_ALLROWS:
+	    case PROFILE_SINGLE_ROW:
+	        return TABLE_PROFILE;           
+	    }
+	    return null;
 	}
 
 	@Override

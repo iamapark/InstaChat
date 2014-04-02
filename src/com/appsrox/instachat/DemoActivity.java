@@ -205,7 +205,7 @@ public class DemoActivity extends Activity {
                         data.putString("my_message", "Hello World");
                         data.putString("my_action", "com.google.android.gcm.demo.app.ECHO_NOW");
                         String id = Integer.toString(msgId.incrementAndGet());
-                        gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
+                        //gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
                         msg = "쌤통에서 보고 연락드렸어요. ㅎㅎ";
                         ServerUtilities.send(msg, "iamapark");
                     } catch (IOException ex) {

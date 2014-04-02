@@ -110,11 +110,10 @@ public class ChatActivity extends Activity implements MessagesFragment.OnFragmen
                 String msg = "";
                 try {
                     ServerUtilities.send(txt, profileEmail);
-                     
-                    ContentValues values = new ContentValues(2);
+                    /*ContentValues values = new ContentValues(2);
                     values.put(DataProvider.COL_MSG, txt);
                     values.put(DataProvider.COL_TO, profileEmail);
-                    getContentResolver().insert(DataProvider.CONTENT_URI_MESSAGES, values);
+                    getContentResolver().insert(DataProvider.CONTENT_URI_MESSAGES, values);*/
                      
                 } catch (IOException ex) {
                     msg = "Message could not be sent";

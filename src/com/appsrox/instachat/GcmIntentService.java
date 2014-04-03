@@ -16,7 +16,6 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 public class GcmIntentService extends AbstractService  {
-
 	
 	public GcmIntentService(String name) {
 		super(name);

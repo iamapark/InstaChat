@@ -28,6 +28,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 public abstract class AbstractService extends IntentService {
+	
     public AbstractService(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub

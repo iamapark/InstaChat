@@ -13,4 +13,6 @@ public interface Constants {
      */
 	String SENDER_ID = "34225333662";
 	
+	public static final int NOTIFICATION_ID = 1;
+	
 }

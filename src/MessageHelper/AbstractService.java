@@ -18,19 +18,17 @@ package MessageHelper;
 
 import java.util.ArrayList;
 
-import android.app.IntentService;
-import android.content.Intent;
+import android.app.Service;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
-public abstract class AbstractService extends IntentService {
+public abstract class AbstractService extends Service {
 	
     public AbstractService(String name) {
-		super(name);
+		super();
 		// TODO Auto-generated constructor stub
 	}
 	static final int MSG_REGISTER_CLIENT = 9991;
@@ -57,37 +55,6 @@ public abstract class AbstractService extends IntentService {
             }
         }
     }
-    
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        
-        Log.d("KAKA", "AbstractService.onCreate()");
-        
-        onStartService();
-        
-        Log.i("MyService", "Service Started.");
-    }
-    
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("MyService", "Received start id " + startId + ": " + intent);
-        return START_STICKY; // run until explicitly stopped.
-    }
-    
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mMessenger.getBinder();
-    }
-    
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        onStopService();
-        
-        Log.i("MyService", "Service Stopped.");
-    }    
     
     protected void send(Message msg) {
    	 for (int i=mClients.size()-1; i>=0; i--) {

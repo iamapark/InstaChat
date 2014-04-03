@@ -1,28 +1,24 @@
 package com.appsrox.instachat;
 
-import MessageHelper.AbstractService;
+import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-public class GcmIntentService extends AbstractService  {
+public class GcmIntentService extends IntentService  {
 	
-	public GcmIntentService(String name) {
-		super(name);
-		Log.d(TAG, "GcmIntentService constructor");
-	}
-
-	public static final int NOTIFICATION_ID = 1;
+	public GcmIntentService() {
+        super("GcmIntentService");
+    }
+	
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 
@@ -83,7 +79,8 @@ public class GcmIntentService extends AbstractService  {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, DemoActivity.class), 0);
+                new Intent(this, MainActivity.class), 0);
+        Log.d("keke", "sendNotification complete");
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -94,26 +91,8 @@ public class GcmIntentService extends AbstractService  {
         .setContentText(msg);
         
         mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        mNotificationManager.notify(Constants.NOTIFICATION_ID, mBuilder.build());
     }
-
-	@Override
-	public void onStartService() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onStopService() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onReceiveMessage(Message msg) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {

@@ -12,6 +12,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.ListActivity;
 import android.app.LoaderManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -48,10 +49,23 @@ public class MainActivity extends ListActivity implements
 	private String regid;
 	
 	private String TAG = "KAKA";
+	private NotificationManager mNotificationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d("InstaChat", "MainActicvity onCreate");
+		
+		
+		mNotificationManager = (NotificationManager)
+                this.getSystemService(Context.NOTIFICATION_SERVICE);
+		
+		if(mNotificationManager != null) {
+			mNotificationManager.cancel(Constants.NOTIFICATION_ID);
+			Log.d("kaka", "noti cancel");
+		}
+		
+		
 		
 		context = getApplicationContext();
 
